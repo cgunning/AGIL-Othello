@@ -196,8 +196,12 @@ private List<Node> moveHelper(int xCoordinate, int yCoordinate, String playerId,
 	@Override
 	public void start(String playerId) {
 		playerInTurnId = playerId;
+<<<<<<< HEAD
+		initBoard("Motspelaren", playerId);
+=======
 		String opponentPlayer = (playerInTurnId == "0") ? "1" : "0";
 		initBoard(playerInTurnId, opponentPlayer);
+>>>>>>> d0d34a7e655ff6f9aa65a3013e3dafa4e58fe514
 	}
 	
 	private Player getPlayerFromId(String playerId) {

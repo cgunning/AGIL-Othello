@@ -7,7 +7,6 @@ import kth.game.othello.player.Player.Type;
 
 import org.junit.Test;
 
-@SuppressWarnings("deprecation")
 public class OthelloLab1IT {
 
 	private Object getNumberOfOccupiedNodes(Othello othello) {
@@ -34,7 +33,11 @@ public class OthelloLab1IT {
 		throw new IllegalStateException();
 	}
 
+<<<<<<< HEAD
+ @Test
+=======
 	@Test
+>>>>>>> d0d34a7e655ff6f9aa65a3013e3dafa4e58fe514
 	public void someMovesBetweenAComputerAndHumanTest() {
 		Othello othello = getOthelloFactory().createHumanVersusComputerGameOnOriginalBoard();
 		Player human = null;

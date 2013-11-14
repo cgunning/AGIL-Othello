@@ -22,7 +22,12 @@ public class NodeTest {
 		Assert.assertEquals(null, node.getOccupantPlayerId());
 		Assert.assertEquals(false, node.isMarked());
 
+<<<<<<< HEAD
+		Assert.assertEquals(false, node.isMarked());
+		Assert.assertEquals(null, node.getOccupantPlayerId());
+=======
 		Assert.assertEquals(true, node.isMarked());
 		Assert.assertEquals("2", node.getOccupantPlayerId());
+>>>>>>> d0d34a7e655ff6f9aa65a3013e3dafa4e58fe514
 	}
 }

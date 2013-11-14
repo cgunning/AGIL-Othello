@@ -1,14 +1,19 @@
 package kth.game.othello;
 
 import kth.game.othello.board.OthelloBoard;
+import kth.game.othello.player.ComputerPlayer;
 import kth.game.othello.player.HumanPlayer;
 
 public class OthelloFactoryImpl implements OthelloFactory {
 	
 	@Override
 	public Othello createComputerGameOnClassicalBoard() {
-		// TODO Auto-generated method stub
-		return null;
+		ComputerPlayer p1 = new ComputerPlayer("0");
+		ComputerPlayer p2 = new ComputerPlayer("1");
+		OthelloBoard board = new OthelloBoard();
+		OthelloImpl othello = new OthelloImpl(p1, p2, board);
+		
+		return othello;
 	}
 
 	@Override
@@ -19,13 +24,17 @@ public class OthelloFactoryImpl implements OthelloFactory {
 		OthelloImpl othello = new OthelloImpl(p1, p2, board);
 		othello.start();
 		
-		return null;
+		return othello;
 	}
 
 	@Override
 	public Othello createHumanVersusComputerGameOnOriginalBoard() {
-		// TODO Auto-generated method stub
-		return null;
+		HumanPlayer p1 = new HumanPlayer("0");
+		ComputerPlayer p2 = new ComputerPlayer("1");
+		OthelloBoard board = new OthelloBoard();
+		OthelloImpl othello = new OthelloImpl(p1, p2, board);
+		
+		return othello;
 	}
 
 }
