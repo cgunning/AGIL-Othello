@@ -28,6 +28,7 @@ public class OthelloBoard implements Board {
 		nodes.set(index, modifiedNode);
 	}
 	
+	@Override
 	public String toString() {
 		StringBuilder text = new StringBuilder();
 		

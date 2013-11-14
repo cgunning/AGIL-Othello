@@ -6,7 +6,6 @@ import java.util.List;
 import kth.game.othello.board.Board;
 import kth.game.othello.board.Node;
 import kth.game.othello.board.OthelloBoard;
-import kth.game.othello.board.OthelloNode;
 import kth.game.othello.player.Player;
 
 public class OthelloImpl implements Othello {
@@ -182,10 +181,10 @@ private List<Node> moveHelper(int xCoordinate, int yCoordinate, String playerId,
 	private void initBoard( String blackPlayerId, String whitePlayerId) {
 		List<Node> nodes = board.getNodes();
 
+		((OthelloBoard)board).setOccupiedNode(3, 3, blackPlayerId);
+		((OthelloBoard)board).setOccupiedNode(3, 4, whitePlayerId);
+		((OthelloBoard)board).setOccupiedNode(4, 3, whitePlayerId);
 		((OthelloBoard)board).setOccupiedNode(4, 4, blackPlayerId);
-		((OthelloBoard)board).setOccupiedNode(4, 5, whitePlayerId);
-		((OthelloBoard)board).setOccupiedNode(5, 4, whitePlayerId);
-		((OthelloBoard)board).setOccupiedNode(5, 5, blackPlayerId);
 		System.out.println(board.toString());
 	}
 	
@@ -197,7 +196,7 @@ private List<Node> moveHelper(int xCoordinate, int yCoordinate, String playerId,
 	@Override
 	public void start(String playerId) {
 		playerInTurnId = playerId;
-		String opponentPlayer = (playerInTurnId == "0") ? "1" : "0";
+		String opponentPlayer = (playerInTurnId == "1") ? "0" : "1";
 		initBoard(playerInTurnId, opponentPlayer);
 	}
 	
@@ -205,6 +204,7 @@ private List<Node> moveHelper(int xCoordinate, int yCoordinate, String playerId,
 		for(Player player : players)
 			if(player.getId().equals(playerId))
 				return player;
+		System.out.println("WAT?");
 		return null;
 	}
 }

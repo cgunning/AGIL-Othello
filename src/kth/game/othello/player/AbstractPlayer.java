@@ -9,10 +9,12 @@ public class AbstractPlayer implements Player {
 	private Type type;
 	
 	public AbstractPlayer(String name, Type type) {
+		
 		this.name = name;
 		this.id = currentId.toString();
 		this.type = type;
-		currentId++;
+		
+		currentId = (currentId+1)%2;
 	}
 	
 	@Override
