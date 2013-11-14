@@ -1,19 +1,5 @@
 package kth.game.othello;
 
-import java.util.ArrayList;
-import java.util.List;
-
-import static org.mockito.Mockito.*;
-
-import org.junit.Test;
-
-import junit.framework.Assert;
-import kth.game.othello.board.Board;
-import kth.game.othello.board.Node;
-import kth.game.othello.board.OthelloBoard;
-import kth.game.othello.board.OthelloNode;
-import kth.game.othello.player.Player;
-import kth.game.othello.player.Player.Type;
 
 public class BoardTest {
 	

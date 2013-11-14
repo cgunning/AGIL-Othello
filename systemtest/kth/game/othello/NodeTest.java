@@ -1,15 +1,11 @@
 package kth.game.othello;
 
-import java.awt.List;
+import junit.framework.Assert;
+import kth.game.othello.board.OthelloNode;
 
 import org.junit.Test;
 
-import junit.framework.Assert;
-import kth.game.othello.board.Node;
-import kth.game.othello.board.OthelloNode;
-import kth.game.othello.player.Player;
-import kth.game.othello.player.Player.Type;
-
+@SuppressWarnings("deprecation")
 public class NodeTest {
 	
 	private OthelloNode createNode(int xCoordinate, int yCoordinate) {

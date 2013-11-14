@@ -23,11 +23,11 @@ public class OthelloNode implements Node {
 		this.marked = true;
 	}
 	
-	public void setOccupantPlayerId(String occupantPlayerId) {
+	void setOccupantPlayerId(String occupantPlayerId) {
 		this.occupantPlayerId = occupantPlayerId;
 	}
 	
-	public void setMarked() {
+	void setMarked() {
 		this.marked = true;
 	}
 	@Override
@@ -54,5 +54,6 @@ public class OthelloNode implements Node {
 	public boolean isMarked() {
 		return marked;
 	}
-
+	
+	
 }
