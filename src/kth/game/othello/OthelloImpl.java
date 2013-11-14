@@ -79,6 +79,7 @@ public class OthelloImpl implements Othello {
 	public boolean isMoveValid(String playerId, String nodeId) {
 
 		List<Node> nodes = board.getNodes();
+		
 		String[] strCoordinates = nodeId.split(":");
 
 		int xCoordinate = Integer.parseInt(strCoordinates[0]);
