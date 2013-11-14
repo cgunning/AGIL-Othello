@@ -43,3 +43,6 @@ Thumbs.db
 local.properties
 .metadata
 .project
+
+# Orig
+*.orig
