@@ -49,6 +49,7 @@ public class OthelloLab1IT {
 		makeAHumanMove(othello, human);
 		othello.move();
 		makeAHumanMove(othello, human);
+		
 		othello.move();
 		Assert.assertEquals(10, getNumberOfOccupiedNodes(othello));
 	}
