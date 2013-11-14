@@ -8,9 +8,10 @@ public class AbstractPlayer implements Player {
 	private String name;
 	private Type type;
 	
-	public AbstractPlayer(String name) {
+	public AbstractPlayer(String name, Type type) {
 		this.name = name;
 		this.id = currentId.toString();
+		this.type = type;
 		currentId++;
 	}
 	

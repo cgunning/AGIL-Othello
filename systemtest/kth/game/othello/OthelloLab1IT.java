@@ -34,7 +34,7 @@ public class OthelloLab1IT {
 		throw new IllegalStateException();
 	}
 
-// @Test
+ @Test
 	public void someMovesBetweenAComputerAndHumanTest() {
 		Othello othello = getOthelloFactory().createHumanVersusComputerGameOnOriginalBoard();
 		Player human = null;
@@ -53,7 +53,7 @@ public class OthelloLab1IT {
 		Assert.assertEquals(10, getNumberOfOccupiedNodes(othello));
 	}
 
-//	@Test
+	@Test
 	public void twoComputerOnAClassicalBoardTest() {
 		Othello othello = getOthelloFactory().createComputerGameOnClassicalBoard();
 		othello.start(othello.getPlayers().get(0).getId());

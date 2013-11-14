@@ -124,9 +124,10 @@ public class OthelloImpl implements Othello {
 		List<Node> nodes = board.getNodes();
 
 		((OthelloBoard)board).setOccupiedNode(4, 4, blackPlayerId);
-		((OthelloBoard)board).setOccupiedNode(4, 2, whitePlayerId);
+		((OthelloBoard)board).setOccupiedNode(4, 5, whitePlayerId);
 		((OthelloBoard)board).setOccupiedNode(5, 4, whitePlayerId);
 		((OthelloBoard)board).setOccupiedNode(5, 5, blackPlayerId);
+		System.out.println(board.toString());
 	}
 	
 	@Override
@@ -138,8 +139,7 @@ public class OthelloImpl implements Othello {
 	@Override
 	public void start(String playerId) {
 		playerInTurnId = playerId;
-		
-		
+		initBoard("Motspelaren", playerId);
 	}
 	
 	private Player getPlayerFromId(String playerId) {

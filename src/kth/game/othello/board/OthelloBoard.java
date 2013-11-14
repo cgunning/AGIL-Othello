@@ -25,7 +25,19 @@ public class OthelloBoard implements Board {
 		int index = 8*xCoordinate + yCoordinate;
 		OthelloNode modifiedNode = (OthelloNode)nodes.get(index);
 		modifiedNode.setOccupantPlayerId(playerId);
-		nodes.add(index, modifiedNode);
+		nodes.set(index, modifiedNode);
 	}
 	
+	public String toString() {
+		StringBuilder text = new StringBuilder();
+		
+		for(int i = 0; i < 8; i++) {
+			for(int j = 0; j < 8; j++) {
+				Node currentNode = nodes.get(8*i+j);
+				text.append(currentNode.getOccupantPlayerId() + " ");
+			}
+			text.append("\n");
+		}
+		return text.toString();
+	}
 }
