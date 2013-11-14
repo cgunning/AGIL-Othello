@@ -14,6 +14,7 @@ public class OthelloImpl implements Othello {
 	private Board board;
 	private List<Player> players;
 	private String playerInTurnId;
+	private static int[] changes = {9, 7, -9, -7, 1, 8, -1, -8};
 	
 	public OthelloImpl(Player p1, Player p2, Board board) {
 		players = new ArrayList<Player>();
@@ -29,14 +30,24 @@ public class OthelloImpl implements Othello {
 
 	@Override
 	public List<Node> getNodesToSwap(String playerId, String nodeId) {
-		// TODO Auto-generated method stub
-		return null;
+		List<Node> nodes = board.getNodes();
+		String[] strCoordinates = nodeId.split(":");
+		int xCoordinate = Integer.parseInt(strCoordinates[0]);
+		int yCoordinate = Integer.parseInt(strCoordinates[1]);
+		List<Node> returnedNodes = new ArrayList<Node>();
+		for(int change : changes) {
+			List<Node> swappedNodes = moveHelper(xCoordinate, yCoordinate, playerId, change);
+			if(swappedNodes != null) {
+				returnedNodes.addAll(swappedNodes);
+				
+			}
+		}
+		return returnedNodes;
 	}
 
 	@Override
 	public Player getPlayerInTurn() {
-		// TODO Auto-generated method stub
-		return null;
+		return getPlayerFromId(playerInTurnId);
 	}
 
 	@Override
@@ -46,13 +57,21 @@ public class OthelloImpl implements Othello {
 
 	@Override
 	public boolean hasValidMove(String playerId) {
-		// TODO Auto-generated method stub
+		List<Node> nodes = board.getNodes();
+		for(Node node : nodes) {
+			if(isMoveValid(playerInTurnId, node.getId())) {
+				return true;
+			}
+		}
 		return false;
 	}
 
 	@Override
 	public boolean isActive() {
-		// TODO Auto-generated method stub
+		for(Player player : players) {
+			if(hasValidMove(player.getId()));
+				return true;
+		}
 		return false;
 	}
 
@@ -64,7 +83,7 @@ public class OthelloImpl implements Othello {
 
 		int xCoordinate = Integer.parseInt(strCoordinates[0]);
 		int yCoordinate = Integer.parseInt(strCoordinates[1]);
-		int[] changes = {9, 7, -9, -7, 1, 8, -1, -8};
+		
 		
 		for(int change : changes) {
 			if(isMoveValidInDirection(xCoordinate, yCoordinate, playerId, change))
@@ -109,7 +128,46 @@ public class OthelloImpl implements Othello {
 	
 	@Override
 	public List<Node> move() {
-		// TODO Auto-generated method stub
+		List<Node> nodes = board.getNodes();
+		List<Node> returnedNodes = new ArrayList<Node>();
+		for(Node node : nodes) {
+			if(isMoveValid(playerInTurnId, node.getId())) {
+				return getNodesToSwap(playerInTurnId, node.getId());
+			}
+		}
+		
+		return null;
+		
+	}
+	
+private List<Node> moveHelper(int xCoordinate, int yCoordinate, String playerId, int change) {
+		List<Node> nodes = board.getNodes();
+		int maxSteps = Math.min(xCoordinate, yCoordinate);
+		int i = 8*xCoordinate + yCoordinate + change;
+		boolean foundOpponent = false;
+		List<Node> returnedNodes = new ArrayList<Node>();
+		returnedNodes.add(nodes.get(i - change));
+		
+		while(i < nodes.size() && i >= 0 && (i + 1)%8 != 0) {
+			Node currentNode = nodes.get(i);
+			if(currentNode.isMarked()) {
+				if(!foundOpponent) {
+					if(!currentNode.getOccupantPlayerId().equals(playerId)) {
+						foundOpponent = true;
+						returnedNodes.add(currentNode);
+					}
+					else {
+						return null;
+					}
+				} else if(currentNode.getOccupantPlayerId().equals(playerId)) {
+					return returnedNodes;
+				} else {
+					returnedNodes.add(currentNode);
+				}
+			} else
+				return null;
+			i += change;
+		}
 		return null;
 	}
 
@@ -120,26 +178,25 @@ public class OthelloImpl implements Othello {
 		return null;
 	}
 
-	private void initBoard(String whitePlayerId, String blackPlayerId) {
+	private void initBoard( String blackPlayerId, String whitePlayerId) {
 		List<Node> nodes = board.getNodes();
 
 		((OthelloBoard)board).setOccupiedNode(4, 4, blackPlayerId);
-		((OthelloBoard)board).setOccupiedNode(4, 2, whitePlayerId);
+		((OthelloBoard)board).setOccupiedNode(4, 5, whitePlayerId);
 		((OthelloBoard)board).setOccupiedNode(5, 4, whitePlayerId);
 		((OthelloBoard)board).setOccupiedNode(5, 5, blackPlayerId);
 	}
 	
 	@Override
 	public void start() {
-		// TODO Auto-generated method stub
-		
+		initBoard("0","1");
 	}
 
 	@Override
 	public void start(String playerId) {
 		playerInTurnId = playerId;
-		
-		
+		String opponentPlayer = (playerInTurnId == "0") ? "1" : "0";
+		initBoard(playerInTurnId, opponentPlayer);
 	}
 	
 	private Player getPlayerFromId(String playerId) {
