@@ -23,11 +23,6 @@ public class OthelloNode implements Node {
 		this.marked = true;
 	}
 	
-	void setOccupantPlayerId(String occupantPlayerId) {
-		this.occupantPlayerId = occupantPlayerId;
-		marked = true;
-	}
-	
 	@Override
 	public String getId() {
 		return id;

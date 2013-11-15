@@ -12,7 +12,6 @@ public class OthelloFactoryImpl implements OthelloFactory {
 		ComputerPlayer p2 = new ComputerPlayer("1");
 		OthelloBoard board = new OthelloBoard();
 		OthelloImpl othello = new OthelloImpl(p1, p2, board);
-		
 		return othello;
 	}
 
@@ -22,8 +21,6 @@ public class OthelloFactoryImpl implements OthelloFactory {
 		HumanPlayer p2 = new HumanPlayer("1");
 		OthelloBoard board = new OthelloBoard();
 		OthelloImpl othello = new OthelloImpl(p1, p2, board);
-		othello.start();
-		
 		return othello;
 	}
 
