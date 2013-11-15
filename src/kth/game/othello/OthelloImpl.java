@@ -13,6 +13,7 @@ public class OthelloImpl implements Othello {
 	private Board board;
 	private List<Player> players;
 	private String playerInTurnId;
+	private static int UP = -8, LEFT = -1, RIGHT = 1, DOWN = 8, UP_LEFT = -9, UP_RIGHT = -7, DOWN_LEFT = 7, DOWN_RIGHT = 9;
 	private static int[] changes = {9, 7, -9, -7, 1, 8, -1, -8};
 	
 	public OthelloImpl(Player p1, Player p2, Board board) {
@@ -58,7 +59,7 @@ public class OthelloImpl implements Othello {
 	public boolean hasValidMove(String playerId) {
 		List<Node> nodes = board.getNodes();
 		for(Node node : nodes) {
-			if(!node.isMarked() && isMoveValid(playerInTurnId, node.getId())) {
+			if(!node.isMarked() && isMoveValid(playerId, node.getId())) {
 					return true;
 			}
 		}
@@ -96,19 +97,17 @@ public class OthelloImpl implements Othello {
 	}
 	
 	private boolean isMoveValidInDirection(int xCoordinate, int yCoordinate, String playerId, int change) {
-		
 		List<Node> nodes = board.getNodes();
-		
-		int maxSteps = Math.min(xCoordinate, yCoordinate);
 		
 		int i = 8*xCoordinate + yCoordinate + change;
 		
 		boolean foundOpponent = false;
+		int lastX = xCoordinate;
 		
-		while(i < nodes.size() && i >= 0 && (i + 1)%8 != 0) {
-			if(i/8 == xCoordinate && (change == -7 || change == 7))
+		while(i < nodes.size() && i >= 0 && (Math.abs(change) > 1 || ((i + 1)%8 != 0 && change == LEFT) || ((i)%8 != 0 && change == RIGHT))) { //0,7 //i=8
+			if(i/8 == lastX && (change == -7 || change == 7)) 
 				return false;
-			if(Math.abs(i/8 - xCoordinate) == 2 && (change == -9 || change == 9))
+			if(Math.abs(i/8 - lastX) == 2 && (change == -9 || change == 9))
 				return false;
 			Node currentNode = nodes.get(i);
 			
@@ -125,6 +124,7 @@ public class OthelloImpl implements Othello {
 				return false;
 			
 			i += change;
+			lastX = currentNode.getXCoordinate();
 			
 		}
 		
@@ -141,28 +141,27 @@ public class OthelloImpl implements Othello {
 				for(Node nodeToSwap : nodesToSwap) {
 					this.board = new OthelloBoard(this.board, nodeToSwap.getXCoordinate(), nodeToSwap.getYCoordinate(), playerInTurnId);
 				}
-				playerInTurnId = (playerInTurnId == "1") ? "0" : "1";
+				playerInTurnId = getNextPlayerId(playerInTurnId);
 				System.out.println(board.toString());
 				return nodesToSwap;
 			}
 		}
-		
+		playerInTurnId = getNextPlayerId(playerInTurnId);
 		return null;
 		
 	}
 	
 	private List<Node> moveHelper(int xCoordinate, int yCoordinate, String playerId, int change) {
 		List<Node> nodes = board.getNodes();
-		int maxSteps = Math.min(xCoordinate, yCoordinate);
 		int i = 8*xCoordinate + yCoordinate + change;
 		boolean foundOpponent = false;
 		List<Node> returnedNodes = new ArrayList<Node>();
 		returnedNodes.add(nodes.get(i - change));
-		
-		while(i < nodes.size() && i >= 0 && (i + 1)%8 != 0) {
-			if(i/8 == xCoordinate && (change == -7 || change == 7))
+		int lastX = xCoordinate;
+		while(i < nodes.size() && i >= 0 && (Math.abs(change) > 1 || ((i + 1)%8 != 0 && change == LEFT) || ((i)%8 != 0 && change == RIGHT))) {
+			if(i/8 == lastX && (change == -7 || change == 7)) 
 				return null;
-			if(Math.abs(i/8 - xCoordinate) == 2 && (change == -9 || change == 9))
+			if(Math.abs(i/8 - lastX) == 2 && (change == -9 || change == 9))//2,5   //i=12
 				return null;
 			Node currentNode = nodes.get(i);
 			if(currentNode.isMarked()) {
@@ -182,6 +181,7 @@ public class OthelloImpl implements Othello {
 			} else
 				return null;
 			i += change;
+			lastX = currentNode.getXCoordinate();
 		}
 		return null;
 	}
@@ -193,7 +193,7 @@ public class OthelloImpl implements Othello {
 		for(Node node : nodesToSwap) {
 			this.board = new OthelloBoard(this.board, node.getXCoordinate(), node.getYCoordinate(), playerId);
 		}
-		playerInTurnId = (playerInTurnId == "1") ? "0" : "1";
+		playerInTurnId = getNextPlayerId(playerInTurnId);
 		System.out.println(board.toString());
 		return nodesToSwap;
 	}
@@ -222,6 +222,14 @@ public class OthelloImpl implements Othello {
 			if(player.getId().equals(playerId))
 				return player;
 		System.out.println("WAT?");
+		return null;
+	}
+	
+	private String getNextPlayerId(String currentPlayerId) {
+		for(Player player : players)
+			if(!player.getId().equals(currentPlayerId))
+				return player.getId();
+		
 		return null;
 	}
 }
