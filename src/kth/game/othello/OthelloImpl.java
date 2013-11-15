@@ -30,24 +30,12 @@ public class OthelloImpl implements Othello {
 
 	@Override
 	public List<Node> getNodesToSwap(String playerId, String nodeId) {
-		List<Node> nodes = board.getNodes();
-		String[] strCoordinates = nodeId.split(":");
-		int xCoordinate = Integer.parseInt(strCoordinates[0]);
-		int yCoordinate = Integer.parseInt(strCoordinates[1]);
-		List<Node> returnedNodes = new ArrayList<Node>();
-		for(int change : changes) {
-			List<Node> swappedNodes = moveHelper(xCoordinate, yCoordinate, playerId, change);
-			if(swappedNodes != null) {
-				returnedNodes.addAll(swappedNodes);
-				
-			}
-		}
-		return returnedNodes;
+		return OthelloMoveHandler.getNodesToSwap(board, playerId, nodeId);
 	}
 
 	@Override
 	public Player getPlayerInTurn() {
-		return getPlayerFromId(playerInTurnId);
+		return OthelloPlayerHandler.getPlayerFromId(playerInTurnId, players);
 	}
 
 	@Override
@@ -57,19 +45,13 @@ public class OthelloImpl implements Othello {
 
 	@Override
 	public boolean hasValidMove(String playerId) {
-		List<Node> nodes = board.getNodes();
-		for(Node node : nodes) {
-			if(!node.isMarked() && isMoveValid(playerId, node.getId())) {
-					return true;
-			}
-		}
-		return false;
+		return OthelloMoveHandler.hasValidMove(this.board, playerId);
 	}
 
 	@Override
 	public boolean isActive() {
 		for(Player player : players) {
-			if(hasValidMove(player.getId()));
+			if(OthelloMoveHandler.hasValidMove(this.board, player.getId()));
 				return true;
 		}
 		return false;
@@ -77,159 +59,39 @@ public class OthelloImpl implements Othello {
 
 	@Override
 	public boolean isMoveValid(String playerId, String nodeId) {
-
-		List<Node> nodes = board.getNodes();
-		
-		String[] strCoordinates = nodeId.split(":");
-
-		int xCoordinate = Integer.parseInt(strCoordinates[0]);
-		int yCoordinate = Integer.parseInt(strCoordinates[1]);
-		if(nodes.get(8*xCoordinate + yCoordinate).isMarked()) {
-			return false;
-		}
-		
-		for(int change : changes) {
-			if(isMoveValidInDirection(xCoordinate, yCoordinate, playerId, change))
-				return true;
-		}
-		
-		return false;
+		return OthelloMoveHandler.isMoveValid(this.board, playerId, nodeId);
 	}
 	
-	private boolean isMoveValidInDirection(int xCoordinate, int yCoordinate, String playerId, int change) {
-		List<Node> nodes = board.getNodes();
-		
-		int i = 8*xCoordinate + yCoordinate + change;
-		
-		boolean foundOpponent = false;
-		int lastX = xCoordinate;
-		
-		while(i < nodes.size() && i >= 0 && (Math.abs(change) > 1 || ((i + 1)%8 != 0 && change == LEFT) || ((i)%8 != 0 && change == RIGHT))) { //0,7 //i=8
-			if(i/8 == lastX && (change == -7 || change == 7)) 
-				return false;
-			if(Math.abs(i/8 - lastX) == 2 && (change == -9 || change == 9))
-				return false;
-			Node currentNode = nodes.get(i);
-			
-			if(currentNode.isMarked()) {
-				if(!foundOpponent) {
-					if(!currentNode.getOccupantPlayerId().equals(playerId))
-						foundOpponent = true;
-					else
-						return false;
-				} else if(currentNode.getOccupantPlayerId().equals(playerId)) {
-					return true;
-				}
-			} else
-				return false;
-			
-			i += change;
-			lastX = currentNode.getXCoordinate();
-			
-		}
-		
-		return false;
-		
-	}
 	
 	@Override
 	public List<Node> move() {
-		List<Node> nodes = board.getNodes();
-		for(Node node : nodes) {
-			if(isMoveValid(playerInTurnId, node.getId())) {
-				List<Node> nodesToSwap = getNodesToSwap(playerInTurnId, node.getId());
-				for(Node nodeToSwap : nodesToSwap) {
-					this.board = new OthelloBoard(this.board, nodeToSwap.getXCoordinate(), nodeToSwap.getYCoordinate(), playerInTurnId);
-				}
-				playerInTurnId = getNextPlayerId(playerInTurnId);
-				System.out.println(board.toString());
-				return nodesToSwap;
-			}
-		}
-		playerInTurnId = getNextPlayerId(playerInTurnId);
-		return null;
-		
-	}
-	
-	private List<Node> moveHelper(int xCoordinate, int yCoordinate, String playerId, int change) {
-		List<Node> nodes = board.getNodes();
-		int i = 8*xCoordinate + yCoordinate + change;
-		boolean foundOpponent = false;
-		List<Node> returnedNodes = new ArrayList<Node>();
-		returnedNodes.add(nodes.get(i - change));
-		int lastX = xCoordinate;
-		while(i < nodes.size() && i >= 0 && (Math.abs(change) > 1 || ((i + 1)%8 != 0 && change == LEFT) || ((i)%8 != 0 && change == RIGHT))) {
-			if(i/8 == lastX && (change == -7 || change == 7)) 
-				return null;
-			if(Math.abs(i/8 - lastX) == 2 && (change == -9 || change == 9))//2,5   //i=12
-				return null;
-			Node currentNode = nodes.get(i);
-			if(currentNode.isMarked()) {
-				if(!foundOpponent) {
-					if(!currentNode.getOccupantPlayerId().equals(playerId)) {
-						foundOpponent = true;
-						returnedNodes.add(currentNode);
-					}
-					else {
-						return null;
-					}
-				} else if(currentNode.getOccupantPlayerId().equals(playerId)) {
-					return returnedNodes;
-				} else {
-					returnedNodes.add(currentNode);
-				}
-			} else
-				return null;
-			i += change;
-			lastX = currentNode.getXCoordinate();
-		}
-		return null;
+		List<Node> nodesToSwap = OthelloMoveHandler.move(this.board, playerInTurnId);
+		this.board = OthelloBoardHandler.updateMovesOnBoard(this.board, nodesToSwap, playerInTurnId);
+		playerInTurnId = OthelloPlayerHandler.getOpponentId(playerInTurnId, players);
+		System.out.println(board.toString());
+		return nodesToSwap;
 	}
 
 	@Override
 	public List<Node> move(String playerId, String nodeId)
 			throws IllegalArgumentException {
-		List<Node> nodesToSwap = getNodesToSwap(playerId, nodeId);
-		for(Node node : nodesToSwap) {
-			this.board = new OthelloBoard(this.board, node.getXCoordinate(), node.getYCoordinate(), playerId);
-		}
-		playerInTurnId = getNextPlayerId(playerInTurnId);
+		List<Node> nodesToSwap = OthelloMoveHandler.move(board, playerId, nodeId);
+		this.board = OthelloBoardHandler.updateMovesOnBoard(this.board, nodesToSwap, playerId);
+		playerInTurnId = OthelloPlayerHandler.getOpponentId(playerInTurnId, players);
 		System.out.println(board.toString());
 		return nodesToSwap;
 	}
 
-	private void initBoard(String blackPlayerId, String whitePlayerId) {
-		this.board = new OthelloBoard(this.board, 3, 3, blackPlayerId);
-		this.board = new OthelloBoard(this.board, 3, 4, whitePlayerId);
-		this.board = new OthelloBoard(this.board, 4, 3, whitePlayerId);
-		this.board = new OthelloBoard(this.board, 4, 4, blackPlayerId);
-	}
-	
 	@Override
 	public void start() {
-		initBoard("0","1");
+		// get random player
+		String playerId = "0";
+		start(playerId);
 	}
 
 	@Override
 	public void start(String playerId) {
 		playerInTurnId = playerId;
-		String opponentPlayer = (playerInTurnId == "1") ? "0" : "1";
-		initBoard(playerInTurnId, opponentPlayer);
-	}
-	
-	private Player getPlayerFromId(String playerId) {
-		for(Player player : players)
-			if(player.getId().equals(playerId))
-				return player;
-		System.out.println("WAT?");
-		return null;
-	}
-	
-	private String getNextPlayerId(String currentPlayerId) {
-		for(Player player : players)
-			if(!player.getId().equals(currentPlayerId))
-				return player.getId();
-		
-		return null;
+		this.board = OthelloBoardHandler.initBoard(board, playerId, OthelloPlayerHandler.getOpponentId(playerId, players));
 	}
 }
