@@ -15,6 +15,7 @@ public class OthelloImpl implements Othello {
 	private String playerInTurnId;
 	
 	public OthelloImpl(Player blackPlayer, Player whitePlayer, Board board) {
+		//TODO
 		int dimension = (int)Math.sqrt(board.getNodes().size());
 		
 		players = new ArrayList<Player>();

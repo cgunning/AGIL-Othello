@@ -1,7 +1,7 @@
 package kth.game.othello.player;
 
 /**
- * 
+ * Class for computer-player
  * 
  * @author Nils Dahlbom Norgren, Christoffer Gunning
  *

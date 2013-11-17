@@ -5,9 +5,17 @@ import kth.game.othello.board.OthelloNode;
 
 import org.junit.Test;
 
+/**
+ * Test the OthelloNode class
+ * @author Nils Dahlbom Norgren, Christoffer Gunning
+ *
+ */
 @SuppressWarnings("deprecation")
 public class NodeTest {
 	
+	/**
+	 * 
+	 */
 	@Test
 	public void testNodes() {
 		OthelloNode node = new OthelloNode(0, 0);

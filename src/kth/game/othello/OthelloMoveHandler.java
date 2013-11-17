@@ -5,7 +5,6 @@ import java.util.List;
 
 import kth.game.othello.board.Board;
 import kth.game.othello.board.Node;
-import kth.game.othello.board.OthelloBoard;
 
 class OthelloMoveHandler {
 
