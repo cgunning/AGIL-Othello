@@ -62,7 +62,7 @@ public class OthelloMoveHelper {
 		boolean foundOpponent = false;
 		List<Node> returnedNodes = new ArrayList<Node>();
 		returnedNodes.add(nodes.get(i - direction));
-		int lastXCoordinate = xCoordinate;
+		Node lastNode = nodes.get(index)
 		while (isValidStep(nodes, i, direction)) {
 			if (isIllegalDiagonalStep(board, lastXCoordinate, i, direction))
 				return null;
