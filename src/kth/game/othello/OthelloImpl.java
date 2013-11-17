@@ -8,12 +8,24 @@ import kth.game.othello.board.Board;
 import kth.game.othello.board.Node;
 import kth.game.othello.player.Player;
 
+/**
+ * This class represents an Othello game.
+ * 
+ * @author Nils Dahlbom Norgren, Christoffer Gunning
+ *
+ */
 public class OthelloImpl implements Othello {
 	
 	private Board board;
 	private List<Player> players;
 	private String playerInTurnId;
 	
+	/**
+	 * Creates an Othello game
+	 * @param blackPlayer The black player
+	 * @param whitePlayer The white player
+	 * @param board Board to be played at
+	 */
 	public OthelloImpl(Player blackPlayer, Player whitePlayer, Board board) {
 
 		players = new ArrayList<Player>();
@@ -67,6 +79,7 @@ public class OthelloImpl implements Othello {
 		List<Node> nodesToSwap = OthelloMoveHandler.move(this.board, playerInTurnId);
 		playerInTurnId = OthelloPlayerHandler.getOpponentId(playerInTurnId, players);
 		return nodesToSwap;
+		
 	}
 
 	@Override
@@ -78,6 +91,7 @@ public class OthelloImpl implements Othello {
 		List<Node> nodesToSwap = OthelloMoveHandler.move(board, playerId, nodeId);
 		
 		playerInTurnId = OthelloPlayerHandler.getOpponentId(playerInTurnId, players);
+		System.out.println(board.toString());
 		return nodesToSwap;
 	}
 
@@ -92,9 +106,5 @@ public class OthelloImpl implements Othello {
 	public void start(String playerId) {
 		playerInTurnId = playerId;
 		this.board = OthelloBoardHandler.initBoard(board, playerId, OthelloPlayerHandler.getOpponentId(playerId, players));
-	}
-	
-	void setBoard(Board board) {
-		this.board = board;
 	}
 }

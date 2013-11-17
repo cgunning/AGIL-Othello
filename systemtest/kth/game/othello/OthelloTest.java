@@ -50,7 +50,6 @@ public class OthelloTest {
 		OthelloImpl othello = new OthelloImpl(p1, p2, board);
 		othello.start(p1.getId());
 		Assert.assertEquals(64, othello.getBoard().getNodes().size());
-		System.out.println(othello.getBoard().toString());
 		Assert.assertEquals(true, othello.isMoveValid(p2.getId(), "2:3"));
 		Assert.assertEquals(false, othello.isMoveValid(p1.getId(), "2:3"));
 		Assert.assertEquals(true, othello.hasValidMove(p2.getId()));
