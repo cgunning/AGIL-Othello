@@ -76,9 +76,9 @@ public class OthelloMoveHelper {
 					} else {
 						return null;
 					}
-				} else if (currentNode.getOccupantPlayerId().equals(playerId)) {
+				} else if (currentNode.getOccupantPlayerId().equals(playerId)) { //Found a node that is occupied with me and has a occupant node betwwen.
 					return returnedNodes;
-				} else {
+				} else { 
 					returnedNodes.add(currentNode);
 				}
 			} else
