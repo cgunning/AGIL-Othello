@@ -60,7 +60,7 @@ public class OthelloLab1IT {
 		othello.start(othello.getPlayers().get(0).getId());
 		
 		int i = 0;
-		while (othello.isActive() && i < 100) {
+		while (othello.isActive()) {
 			Assert.assertEquals(Type.COMPUTER, othello.getPlayerInTurn().getType());
 			System.out.println(othello);
 			othello.move();

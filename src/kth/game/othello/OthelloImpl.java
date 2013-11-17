@@ -13,11 +13,10 @@ public class OthelloImpl implements Othello {
 	private Board board;
 	private List<Player> players;
 	private String playerInTurnId;
-	private static int UP = -8, LEFT = -1, RIGHT = 1, DOWN = 8, UP_LEFT = -9, UP_RIGHT = -7, DOWN_LEFT = 7, DOWN_RIGHT = 9;
-	private static int[] changes = {9, 7, -9, -7, 1, 8, -1, -8};
 	
 	public OthelloImpl(Player blackPlayer, Player whitePlayer, Board board) {
 		int dimension = (int)Math.sqrt(board.getNodes().size());
+		
 		players = new ArrayList<Player>();
 		players.add(blackPlayer);
 		players.add(whitePlayer);
@@ -52,7 +51,7 @@ public class OthelloImpl implements Othello {
 	@Override
 	public boolean isActive() {
 		for(Player player : players) {
-			if(OthelloMoveHandler.hasValidMove(this.board, player.getId()));
+			if(OthelloMoveHandler.hasValidMove(this.board, player.getId()))
 				return true;
 		}
 		return false;
@@ -86,7 +85,7 @@ public class OthelloImpl implements Othello {
 	@Override
 	public void start() {
 		// get random player
-		String playerId = "0";
+		String playerId = players.get(0).getId();
 		start(playerId);
 	}
 

@@ -2,7 +2,13 @@ package kth.game.othello;
 
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.concurrent.ArrayBlockingQueue;
+
 import junit.framework.Assert;
+import kth.game.othello.board.Node;
 import kth.game.othello.board.OthelloBoard;
 import kth.game.othello.player.HumanPlayer;
 
@@ -12,8 +18,16 @@ import org.junit.Test;
 public class OthelloTest {
 
 	private OthelloBoard createBoard() {
+		ArrayList<Node> nodes = new ArrayList<Node>();
+		
+		for(int i = 0; i < 64; i++) {
+			Node node = mock(Node.class);
+			when(node.isMarked()).thenReturn(true);
+			nodes.add(node);
+		}
+		
 		OthelloBoard board = mock(OthelloBoard.class);
-		when(board.getNodes()).thenReturn(null);
+		when(board.getNodes()).thenReturn(nodes);
 		return board;
 	}
 	
@@ -31,6 +45,11 @@ public class OthelloTest {
 		Assert.assertEquals(false, othello.isMoveValid(p1.getId(), "2:3"));
 		Assert.assertEquals(true, othello.hasValidMove(p2.getId()));
 		Assert.assertEquals(true, othello.hasValidMove(p1.getId()));
+		
+		OthelloBoard board2 = createBoard();
+		
+		OthelloImpl othello2 = new OthelloImpl(p1, p2, board2);
+		Assert.assertEquals(false, othello2.isActive());
 		
 	}
 	

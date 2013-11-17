@@ -14,7 +14,7 @@ import kth.game.othello.board.OthelloNode;
 
 
 public class BoardTest {
-	
+		
 	@Test
 	public void testBoard() {
 		
