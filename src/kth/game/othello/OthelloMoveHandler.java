@@ -31,7 +31,8 @@ class OthelloMoveHandler {
 	}
 	
 	/**
-	 * Checks wheather the player can make a valid move in the board
+	 * Checks whether the player can make a valid move in the board
+	 * 
 	 * @param board		-	The board played on
 	 * @param playerId	-	The id of the player whose turn it is
 	 * @return boolean	-	True if the player can make a valid move, false otherwise
@@ -72,11 +73,12 @@ class OthelloMoveHandler {
 	 * @param playerInTurnId
 	 * @return
 	 */
-	static List<Node> getMove(Board board, String playerInTurnId) {
+	static List<Node> move(Board board, String playerInTurnId) {
 		List<Node> nodes = board.getNodes();
 		for (Node node : nodes) {
 			if (isMoveValid(board, playerInTurnId, node.getId())) {
 				List<Node> nodesToSwap = getNodesToSwap(board, playerInTurnId,node.getId());
+				board = OthelloBoardHandler.updateMovesOnBoard(board, nodesToSwap, playerInTurnId);
 				return nodesToSwap;
 			}
 		}
@@ -84,8 +86,9 @@ class OthelloMoveHandler {
 	}
 
 	
-	static List<Node> getMove(Board board, String playerId, String nodeId) {
+	static List<Node> move(Board board, String playerId, String nodeId) {
 		List<Node> nodesToSwap = getNodesToSwap(board, playerId, nodeId);
+		board = OthelloBoardHandler.updateMovesOnBoard(board, nodesToSwap, playerId);
 		return nodesToSwap;
 	}
 

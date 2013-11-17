@@ -6,15 +6,22 @@ import java.util.List;
 import kth.game.othello.board.Board;
 import kth.game.othello.board.Node;
 
+/**
+ * A class to 
+ * 
+ * @author Nils Dahlbom Norgren, Christoffer Gunning
+ *
+ */
 public class OthelloMoveHelper {
 
 	private static int UP = -8, LEFT = -1, RIGHT = 1, DOWN = 8, UP_LEFT = -9,UP_RIGHT = -7, DOWN_LEFT = 7, DOWN_RIGHT = 9;
 	
 	/**
 	 * 
-	 * @param nodes
-	 * @param index
-	 * @param change
+	 * 
+	 * @param nodes		-	
+	 * @param index		-	
+	 * @param change	-	
 	 * @return
 	 */
 	static boolean isValidStep(List<Node> nodes, int index, int change) {
@@ -98,8 +105,8 @@ public class OthelloMoveHelper {
 	/**
 	 * Gets the coordinates for a node from the ID
 	 * 
-	 * @param nodeId				-	The ID of the node
-	 * @return int[] coordinates	-	The coordinates of the node { x, y }
+	 * @param nodeId	-	The ID of the node
+	 * @return The coordinates of the node on the form { x, y }
 	 */
 	static int[] getCoordinatesFromId(String nodeId) {
 		int[] coordinates = new int[2];
@@ -109,7 +116,13 @@ public class OthelloMoveHelper {
 		return coordinates;
 	}
 	
-	static boolean isValidNode(String nodeId) {
+	/**
+	 * Checks if an ID of a node is a valid ID
+	 * 
+	 * @param nodeId	-	The ID of the node
+	 * @return True if the ID is valid, false otherwise
+	 */
+	static boolean isValidNodeId(String nodeId) {
 
 		int xCoordinate = OthelloMoveHelper.getCoordinatesFromId(nodeId)[0];
 		int yCoordinate = OthelloMoveHelper.getCoordinatesFromId(nodeId)[1];

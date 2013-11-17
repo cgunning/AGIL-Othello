@@ -15,9 +15,7 @@ public class OthelloImpl implements Othello {
 	private String playerInTurnId;
 	
 	public OthelloImpl(Player blackPlayer, Player whitePlayer, Board board) {
-		//TODO
-		int dimension = (int)Math.sqrt(board.getNodes().size());
-		
+
 		players = new ArrayList<Player>();
 		players.add(blackPlayer);
 		players.add(whitePlayer);
@@ -66,29 +64,27 @@ public class OthelloImpl implements Othello {
 	
 	@Override
 	public List<Node> move() {
-		List<Node> nodesToSwap = OthelloMoveHandler.getMove(this.board, playerInTurnId);
-		this.board = OthelloBoardHandler.updateMovesOnBoard(this.board, nodesToSwap, playerInTurnId);
+		List<Node> nodesToSwap = OthelloMoveHandler.move(this.board, playerInTurnId);
 		playerInTurnId = OthelloPlayerHandler.getOpponentId(playerInTurnId, players);
-		System.out.println(board.toString());
 		return nodesToSwap;
 	}
 
 	@Override
 	public List<Node> move(String playerId, String nodeId)
 			throws IllegalArgumentException {
-		if(!OthelloMoveHelper.isValidNode(nodeId) || OthelloPlayerHandler.getPlayerFromId(playerId, players) == null || !playerId.equals(playerInTurnId))
+		if(!OthelloMoveHelper.isValidNodeId(nodeId) || OthelloPlayerHandler.getPlayerFromId(playerId, players) == null || !playerId.equals(playerInTurnId))
 			throw new IllegalArgumentException();
-		List<Node> nodesToSwap = OthelloMoveHandler.getMove(board, playerId, nodeId);
-		this.board = OthelloBoardHandler.updateMovesOnBoard(board, nodesToSwap, playerId);
+		
+		List<Node> nodesToSwap = OthelloMoveHandler.move(board, playerId, nodeId);
+		
 		playerInTurnId = OthelloPlayerHandler.getOpponentId(playerInTurnId, players);
-		System.out.println(board.toString());
 		return nodesToSwap;
 	}
 
 	@Override
 	public void start() {
 		Random rnd = new Random();
-		String playerId = players.get(rnd.nextInt()%2).getId();
+		String playerId = players.get(rnd.nextInt(2)).getId();
 		start(playerId);
 	}
 
@@ -96,5 +92,9 @@ public class OthelloImpl implements Othello {
 	public void start(String playerId) {
 		playerInTurnId = playerId;
 		this.board = OthelloBoardHandler.initBoard(board, playerId, OthelloPlayerHandler.getOpponentId(playerId, players));
+	}
+	
+	void setBoard(Board board) {
+		this.board = board;
 	}
 }
