@@ -30,7 +30,7 @@ public class OthelloMoveHandlerTest {
 		Player computer = new ComputerPlayer("Computer");
 		Player human = new HumanPlayer("Human");
 		Othello othello = new OthelloImpl(computer, human, board);
-		othello.start();
+		othello.start(computer.getId());
 		Assert.assertEquals(true, OthelloMoveHandler.hasValidMove(board, computer.getId()));
 		Assert.assertEquals(true, OthelloMoveHandler.hasValidMove(board, human.getId()));
 		
@@ -38,11 +38,11 @@ public class OthelloMoveHandlerTest {
 		Assert.assertEquals(2, OthelloMoveHandler.getNodesToSwap(board,computer.getId(), "5:3").size());
 		Assert.assertEquals(0, OthelloMoveHandler.getNodesToSwap(board,human.getId(), "5:3").size());
 		
-		Assert.assertEquals(2, OthelloMoveHandler.move(board,computer.getId(), "5:3").size());
-		Assert.assertEquals(0, OthelloMoveHandler.move(board,human.getId(), "5:3").size());
+		Assert.assertEquals(2, OthelloMoveHandler.getMove(board,computer.getId(), "5:3").size());
+		Assert.assertEquals(0, OthelloMoveHandler.getMove(board,human.getId(), "5:3").size());
 		
-		Assert.assertEquals(2, OthelloMoveHandler.move(board,computer.getId()).size());
-		Assert.assertEquals(2, OthelloMoveHandler.move(board,human.getId()).size());
+		Assert.assertEquals(2, OthelloMoveHandler.getMove(board,computer.getId()).size());
+		Assert.assertEquals(2, OthelloMoveHandler.getMove(board,human.getId()).size());
 		
 		Assert.assertEquals(true, OthelloMoveHandler.isMoveValid(board, computer.getId(), "2:4"));
 		Assert.assertEquals(false, OthelloMoveHandler.isMoveValid(board, human.getId(), "2:4"));

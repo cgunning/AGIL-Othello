@@ -55,24 +55,4 @@ public class OthelloBoard implements Board {
 	int getDimension() {
 		return dimension;
 	}
-	
-	// TODO - Removezzz
-	@Override
-	public String toString() {
-		StringBuilder text = new StringBuilder();
-		
-		for(int i = 0; i < dimension; i++) {
-			for(int j = 0; j < dimension; j++) {
-				Node currentNode = nodes.get(dimension*i+j);
-				if(currentNode.getOccupantPlayerId() == null) {
-					text.append("- ");
-				}
-				else {
-					text.append(currentNode.getOccupantPlayerId() + " ");
-				}
-			}
-			text.append("\n");
-		}
-		return text.toString();
-	}
 }

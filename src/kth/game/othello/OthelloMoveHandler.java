@@ -6,6 +6,12 @@ import java.util.List;
 import kth.game.othello.board.Board;
 import kth.game.othello.board.Node;
 
+/**
+ * Class that handles moves on a Othello board
+ * 
+ * @author Nils Dahlbom Norgren, Christoffer Gunning
+ *
+ */
 class OthelloMoveHandler {
 
 	private static int UP = -8, LEFT = -1, RIGHT = 1, DOWN = 8, UP_LEFT = -9,UP_RIGHT = -7, DOWN_LEFT = 7, DOWN_RIGHT = 9;
@@ -67,10 +73,10 @@ class OthelloMoveHandler {
 	}
 	
 	/**
-	 * 
-	 * @param board
-	 * @param playerInTurnId
-	 * @return
+	 * Method that chooses a random valid move to be played
+	 * @param board The board that is played on
+	 * @param playerInTurnId The Id of the player in turn
+	 * @return List of nodes that will be effected for that move or an empty ArrayList if there are no moves.
 	 */
 	static List<Node> getMove(Board board, String playerInTurnId) {
 		List<Node> nodes = board.getNodes();
@@ -84,6 +90,13 @@ class OthelloMoveHandler {
 	}
 
 	
+	/**
+	 * Method that makes a move to be played for a certain node.
+	 * @param board The board that is played on
+	 * @param playerId The Id for the player who makes the move
+	 * @param nodeId The Id for the node where the move is played
+	 * @return List of nodes that will be effected for that move.
+	 */
 	static List<Node> getMove(Board board, String playerId, String nodeId) {
 		List<Node> nodesToSwap = getNodesToSwap(board, playerId, nodeId);
 		return nodesToSwap;
