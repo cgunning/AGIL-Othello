@@ -5,8 +5,16 @@ import junit.framework.Assert;
 import kth.game.othello.player.ComputerPlayer;
 import kth.game.othello.player.HumanPlayer;
 
+/**
+ * Test for OthelloFactoryImpl
+ * @author Nils Dahlbom Norgren, Christoffer Gunning
+ *
+ */
 public class OthelloFactoryTest {
 
+	/**
+	 * 
+	 */
 	@Test
 	public void testOthelloFactory() {
 		OthelloFactoryImpl othelloFactory = new OthelloFactoryImpl();

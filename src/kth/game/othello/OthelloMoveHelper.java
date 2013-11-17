@@ -16,12 +16,10 @@ public class OthelloMoveHelper {
 	
 	static boolean isIllegalStep(Board board, int lastXCoordinate, int index, int change) {
 		int dimension = (int)Math.sqrt(board.getNodes().size());
-		
 		if (index / dimension == lastXCoordinate && (change == UP_RIGHT || change == DOWN_LEFT))
 			return true;
 		else if (Math.abs(index / dimension - lastXCoordinate) == 2 && (change == UP_LEFT || change == DOWN_RIGHT))
 			return true;
-		
 		return false;
 	}
 	

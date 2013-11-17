@@ -13,10 +13,18 @@ import kth.game.othello.board.OthelloBoard;
 import kth.game.othello.player.HumanPlayer;
 
 import org.junit.Test;
-
+/**
+ * Test the whole Othello implementation
+ * @author Nils Dahlbom Norgren, Christoffer Gunning
+ *
+ */
 @SuppressWarnings("deprecation")
 public class OthelloTest {
 
+	/**
+	 * Method to create a mocked board with mocked nodes, all nodes are marked.
+	 * @return Mocked board with all nodes marked
+	 */
 	private OthelloBoard createBoard() {
 		ArrayList<Node> nodes = new ArrayList<Node>();
 		
@@ -31,6 +39,9 @@ public class OthelloTest {
 		return board;
 	}
 	
+	/**
+	 * 
+	 */
 	@Test
 	public void testOthello() {
 		//OthelloBoard board = createBoard();
