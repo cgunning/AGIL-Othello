@@ -16,12 +16,13 @@ import kth.game.othello.player.Player;
  * @author Nils Dahlbom Norgren, Christoffer Gunning
  *
  */
+@SuppressWarnings("deprecation")
 public class OthelloBoardHandlerTest {
 	
 	@Test
 	public void boardHandlerTest() {
 		Board board = new OthelloBoard(8);
-		board = OthelloBoardHandler.initBoard(board, "black", "white");
+		OthelloBoardHandler.initBoard(board, "black", "white");
 		Assert.assertEquals("white", board.getNodes().get(28).getOccupantPlayerId());
 		Assert.assertEquals("black", board.getNodes().get(27).getOccupantPlayerId());
 		Assert.assertEquals(null, board.getNodes().get(26).getOccupantPlayerId());

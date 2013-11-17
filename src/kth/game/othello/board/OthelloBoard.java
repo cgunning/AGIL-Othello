@@ -35,13 +35,6 @@ public class OthelloBoard implements Board {
 	 * @param yCoordinate	-	the y coordinate of the node to be marked
 	 * @param playerId		-	the player ID of the player that marks the node
 	 */
-	public OthelloBoard(Board board, int xCoordinate, int yCoordinate, String playerId) {
-		dimension = ((OthelloBoard)board).getDimension();
-		int index = dimension*xCoordinate + yCoordinate;
-		List<Node> oldNodes = board.getNodes();
-		oldNodes.set(index, new OthelloNode(xCoordinate, yCoordinate, playerId));
-		nodes = oldNodes;
-	}
 	
 	@Override
 	public List<Node> getNodes() {

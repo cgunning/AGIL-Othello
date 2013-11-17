@@ -5,6 +5,8 @@ import java.util.List;
 
 import kth.game.othello.board.Board;
 import kth.game.othello.board.Node;
+import kth.game.othello.board.OthelloBoard;
+import kth.game.othello.board.OthelloNode;
 
 /**
  * Class that handles moves on a Othello board
@@ -83,9 +85,7 @@ class OthelloMoveHandler {
 		List<Node> nodes = board.getNodes();
 		for (Node node : nodes) {
 			if (isMoveValid(board, playerInTurnId, node.getId())) {
-				List<Node> nodesToSwap = getNodesToSwap(board, playerInTurnId,node.getId());
-				board = OthelloBoardHandler.updateMovesOnBoard(board, nodesToSwap, playerInTurnId);
-				return nodesToSwap;
+				return move(board, playerInTurnId, node.getId());
 			}
 		}
 		return new ArrayList<Node>();
@@ -101,7 +101,7 @@ class OthelloMoveHandler {
 	 */
 	static List<Node> move(Board board, String playerId, String nodeId) {
 		List<Node> nodesToSwap = getNodesToSwap(board, playerId, nodeId);
-		board = OthelloBoardHandler.updateMovesOnBoard(board, nodesToSwap, playerId);
+		OthelloBoardHandler.updateMovesOnBoard(board, nodesToSwap, playerId);
 		return nodesToSwap;
 	}
 
