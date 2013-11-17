@@ -4,12 +4,11 @@ import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
 import java.util.ArrayList;
-import java.util.List;
-import java.util.concurrent.ArrayBlockingQueue;
 
 import junit.framework.Assert;
 import kth.game.othello.board.Node;
 import kth.game.othello.board.OthelloBoard;
+import kth.game.othello.player.ComputerPlayer;
 import kth.game.othello.player.HumanPlayer;
 
 import org.junit.Test;
@@ -49,7 +48,7 @@ public class OthelloTest {
 		HumanPlayer p1 = new HumanPlayer("Black");
 		HumanPlayer p2 = new HumanPlayer("White");
 		OthelloImpl othello = new OthelloImpl(p1, p2, board);
-		othello.start();
+		othello.start(p1.getId());
 		Assert.assertEquals(64, othello.getBoard().getNodes().size());
 		System.out.println(othello.getBoard().toString());
 		Assert.assertEquals(true, othello.isMoveValid(p2.getId(), "2:3"));

@@ -2,10 +2,10 @@ package kth.game.othello;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 
 import kth.game.othello.board.Board;
 import kth.game.othello.board.Node;
-import kth.game.othello.board.OthelloBoard;
 import kth.game.othello.player.Player;
 
 public class OthelloImpl implements Othello {
@@ -66,7 +66,7 @@ public class OthelloImpl implements Othello {
 	
 	@Override
 	public List<Node> move() {
-		List<Node> nodesToSwap = OthelloMoveHandler.move(this.board, playerInTurnId);
+		List<Node> nodesToSwap = OthelloMoveHandler.getMove(this.board, playerInTurnId);
 		this.board = OthelloBoardHandler.updateMovesOnBoard(this.board, nodesToSwap, playerInTurnId);
 		playerInTurnId = OthelloPlayerHandler.getOpponentId(playerInTurnId, players);
 		System.out.println(board.toString());
@@ -78,8 +78,8 @@ public class OthelloImpl implements Othello {
 			throws IllegalArgumentException {
 		if(!OthelloMoveHelper.isValidNode(nodeId) || OthelloPlayerHandler.getPlayerFromId(playerId, players) == null || !playerId.equals(playerInTurnId))
 			throw new IllegalArgumentException();
-		List<Node> nodesToSwap = OthelloMoveHandler.move(board, playerId, nodeId);
-		this.board = OthelloBoardHandler.updateMovesOnBoard(this.board, nodesToSwap, playerId);
+		List<Node> nodesToSwap = OthelloMoveHandler.getMove(board, playerId, nodeId);
+		this.board = OthelloBoardHandler.updateMovesOnBoard(board, nodesToSwap, playerId);
 		playerInTurnId = OthelloPlayerHandler.getOpponentId(playerInTurnId, players);
 		System.out.println(board.toString());
 		return nodesToSwap;
@@ -87,8 +87,8 @@ public class OthelloImpl implements Othello {
 
 	@Override
 	public void start() {
-		// get random player
-		String playerId = players.get(0).getId();
+		Random rnd = new Random();
+		String playerId = players.get(rnd.nextInt()%2).getId();
 		start(playerId);
 	}
 

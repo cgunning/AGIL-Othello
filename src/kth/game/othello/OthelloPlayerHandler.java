@@ -1,6 +1,7 @@
 package kth.game.othello;
 
 import java.util.List;
+
 import kth.game.othello.player.Player;
 
 /**

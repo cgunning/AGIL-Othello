@@ -4,6 +4,12 @@ import kth.game.othello.board.OthelloBoard;
 import kth.game.othello.player.ComputerPlayer;
 import kth.game.othello.player.HumanPlayer;
 
+/**
+ * A factory for producing Othello games.
+ * 
+ * @author Nils Dahlbom Norgren, Christoffer Gunning
+ *
+ */
 public class OthelloFactoryImpl implements OthelloFactory {
 	
 	@Override

@@ -1,15 +1,17 @@
 package kth.game.othello;
 
-import org.junit.Test;
 import junit.framework.Assert;
 import kth.game.othello.player.ComputerPlayer;
 import kth.game.othello.player.HumanPlayer;
+
+import org.junit.Test;
 
 /**
  * Test for OthelloFactoryImpl
  * @author Nils Dahlbom Norgren, Christoffer Gunning
  *
  */
+@SuppressWarnings("deprecation")
 public class OthelloFactoryTest {
 
 	/**
