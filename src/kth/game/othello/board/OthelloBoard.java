@@ -6,18 +6,28 @@ import java.util.List;
 public class OthelloBoard implements Board {
 
 	List<Node> nodes;
+	private int dimension;
 	
-	public OthelloBoard() {
+	public OthelloBoard(int dimension) {
+		this.dimension = dimension;
 		nodes = new ArrayList<Node>();
-		for(int i = 0; i < 8; i++) {
-			for(int j = 0; j < 8; j++) {
+		for(int i = 0; i < dimension; i++) {
+			for(int j = 0; j < dimension; j++) {
 				nodes.add(new OthelloNode(i, j));
 			}
 		}
 	}
 	
+	/**
+	 * Creates a new board from an old board with the specified node marked
+	 * @param board			-	the old board
+	 * @param xCoordinate	-	the x coordinate of the node to be marked
+	 * @param yCoordinate	-	the y coordinate of the node to be marked
+	 * @param playerId		-	the player ID of the player that marks the node
+	 */
 	public OthelloBoard(Board board, int xCoordinate, int yCoordinate, String playerId) {
-		int index = 8*xCoordinate + yCoordinate;
+		dimension = ((OthelloBoard)board).getDimension();
+		int index = dimension*xCoordinate + yCoordinate;
 		List<Node> oldNodes = board.getNodes();
 		oldNodes.set(index, new OthelloNode(xCoordinate, yCoordinate, playerId));
 		nodes = oldNodes;
@@ -28,13 +38,18 @@ public class OthelloBoard implements Board {
 		return nodes;
 	}
 	
+	int getDimension() {
+		return dimension;
+	}
+	
+	// TODO - Removezzz
 	@Override
 	public String toString() {
 		StringBuilder text = new StringBuilder();
 		
-		for(int i = 0; i < 8; i++) {
-			for(int j = 0; j < 8; j++) {
-				Node currentNode = nodes.get(8*i+j);
+		for(int i = 0; i < dimension; i++) {
+			for(int j = 0; j < dimension; j++) {
+				Node currentNode = nodes.get(dimension*i+j);
 				if(currentNode.getOccupantPlayerId() == null) {
 					text.append("- ");
 				}

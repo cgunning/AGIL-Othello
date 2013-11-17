@@ -34,7 +34,7 @@ public class OthelloLab1IT {
 		throw new IllegalStateException();
 	}
 
-	//@Test
+	@Test
 	public void someMovesBetweenAComputerAndHumanTest() {
 		Othello othello = getOthelloFactory().createHumanVersusComputerGameOnOriginalBoard();
 		Player human = null;
@@ -60,7 +60,7 @@ public class OthelloLab1IT {
 		othello.start(othello.getPlayers().get(0).getId());
 		
 		int i = 0;
-		while (othello.isActive() && i < 60) {
+		while (othello.isActive() && i < 100) {
 			Assert.assertEquals(Type.COMPUTER, othello.getPlayerInTurn().getType());
 			System.out.println(othello);
 			othello.move();

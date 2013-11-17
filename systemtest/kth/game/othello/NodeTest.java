@@ -8,13 +8,10 @@ import org.junit.Test;
 @SuppressWarnings("deprecation")
 public class NodeTest {
 	
-	private OthelloNode createNode(int xCoordinate, int yCoordinate) {
-		return new OthelloNode(xCoordinate, yCoordinate);
-	}
-	
 	@Test
 	public void testNodes() {
-		OthelloNode node = createNode(0, 0);
+		OthelloNode node = new OthelloNode(0, 0);
+		OthelloNode markedNode = new OthelloNode(1, 1, "1");
 
 		Assert.assertEquals(0, node.getXCoordinate());
 		Assert.assertEquals(0, node.getYCoordinate());
@@ -22,7 +19,10 @@ public class NodeTest {
 		Assert.assertEquals(null, node.getOccupantPlayerId());
 		Assert.assertEquals(false, node.isMarked());
 
-//		Assert.assertEquals(true, node.isMarked());
-//		Assert.assertEquals("2", node.getOccupantPlayerId());
+		Assert.assertEquals(1, markedNode.getXCoordinate());
+		Assert.assertEquals(1, markedNode.getYCoordinate());
+		Assert.assertEquals("1:1", markedNode.getId());
+		Assert.assertEquals("1", markedNode.getOccupantPlayerId());
+		Assert.assertEquals(true, markedNode.isMarked());		
 	}
 }

@@ -16,10 +16,11 @@ public class OthelloImpl implements Othello {
 	private static int UP = -8, LEFT = -1, RIGHT = 1, DOWN = 8, UP_LEFT = -9, UP_RIGHT = -7, DOWN_LEFT = 7, DOWN_RIGHT = 9;
 	private static int[] changes = {9, 7, -9, -7, 1, 8, -1, -8};
 	
-	public OthelloImpl(Player p1, Player p2, Board board) {
+	public OthelloImpl(Player blackPlayer, Player whitePlayer, Board board) {
+		int dimension = (int)Math.sqrt(board.getNodes().size());
 		players = new ArrayList<Player>();
-		players.add(p1);
-		players.add(p2);
+		players.add(blackPlayer);
+		players.add(whitePlayer);
 		this.board = board;
 	}
 	

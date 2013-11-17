@@ -10,7 +10,7 @@ public class OthelloFactoryImpl implements OthelloFactory {
 	public Othello createComputerGameOnClassicalBoard() {
 		ComputerPlayer p1 = new ComputerPlayer("0");
 		ComputerPlayer p2 = new ComputerPlayer("1");
-		OthelloBoard board = new OthelloBoard();
+		OthelloBoard board = new OthelloBoard(10);
 		OthelloImpl othello = new OthelloImpl(p1, p2, board);
 		return othello;
 	}
@@ -19,7 +19,7 @@ public class OthelloFactoryImpl implements OthelloFactory {
 	public Othello createHumanGameOnOriginalBoard() {
 		HumanPlayer p1 = new HumanPlayer("0");
 		HumanPlayer p2 = new HumanPlayer("1");
-		OthelloBoard board = new OthelloBoard();
+		OthelloBoard board = new OthelloBoard(8);
 		OthelloImpl othello = new OthelloImpl(p1, p2, board);
 		return othello;
 	}
@@ -28,7 +28,7 @@ public class OthelloFactoryImpl implements OthelloFactory {
 	public Othello createHumanVersusComputerGameOnOriginalBoard() {
 		HumanPlayer p1 = new HumanPlayer("0");
 		ComputerPlayer p2 = new ComputerPlayer("1");
-		OthelloBoard board = new OthelloBoard();
+		OthelloBoard board = new OthelloBoard(8);
 		OthelloImpl othello = new OthelloImpl(p1, p2, board);
 		return othello;
 	}
