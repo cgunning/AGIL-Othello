@@ -7,7 +7,7 @@ import kth.game.othello.player.Player;
 import kth.game.othello.player.Player.Type;
 
 import org.junit.Test;
-
+@SuppressWarnings("deprecation")
 public class PlayerTest {
 
 	@Test

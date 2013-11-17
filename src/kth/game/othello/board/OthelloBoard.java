@@ -3,11 +3,21 @@ package kth.game.othello.board;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * This class represents an OthelloBoard
+ * 
+ * @author Nils Dahlbom Norgren, Christoffer Gunning
+ *
+ */
 public class OthelloBoard implements Board {
 
 	List<Node> nodes;
 	private int dimension;
 	
+	/**
+	 * Creates a square board of specified dimension. Results in a board of size dimension*dimension
+	 * @param dimension		-	the dimension of the board
+	 */
 	public OthelloBoard(int dimension) {
 		this.dimension = dimension;
 		nodes = new ArrayList<Node>();
@@ -38,6 +48,10 @@ public class OthelloBoard implements Board {
 		return nodes;
 	}
 	
+	/**
+	 * Gets the dimension of the board
+	 * @return dimension	-	the dimension of the board
+	 */
 	int getDimension() {
 		return dimension;
 	}

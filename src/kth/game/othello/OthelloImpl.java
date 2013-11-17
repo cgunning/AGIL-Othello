@@ -75,6 +75,8 @@ public class OthelloImpl implements Othello {
 	@Override
 	public List<Node> move(String playerId, String nodeId)
 			throws IllegalArgumentException {
+		if(!OthelloMoveHelper.isValidNode(nodeId) || OthelloPlayerHandler.getPlayerFromId(playerId, players) == null || !playerId.equals(playerInTurnId))
+			throw new IllegalArgumentException();
 		List<Node> nodesToSwap = OthelloMoveHandler.move(board, playerId, nodeId);
 		this.board = OthelloBoardHandler.updateMovesOnBoard(this.board, nodesToSwap, playerId);
 		playerInTurnId = OthelloPlayerHandler.getOpponentId(playerInTurnId, players);

@@ -70,4 +70,13 @@ public class OthelloMoveHelper {
 		coordinates[1] = Integer.parseInt(strCoordinates[1]);
 		return coordinates;
 	}
+	
+	static boolean isValidNode(String nodeId) {
+
+		int xCoordinate = OthelloMoveHelper.getCoordinatesFromId(nodeId)[0];
+		int yCoordinate = OthelloMoveHelper.getCoordinatesFromId(nodeId)[1];
+		if(xCoordinate >= 0 && xCoordinate < 8 && yCoordinate >= 0 && yCoordinate < 8)
+			return true;
+		return false;
+	}
 }
