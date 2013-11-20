@@ -1,6 +1,5 @@
 package kth.game.othello;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
@@ -12,57 +11,63 @@ import kth.game.othello.player.Player;
  * This class represents an Othello game.
  * 
  * @author Nils Dahlbom Norgren, Christoffer Gunning
- *
+ * 
  */
 public class OthelloImpl implements Othello {
-	
-	private Board board;
-	private List<Player> players;
-	private String playerInTurnId;
-	
+
+	private OthelloMoveHandler moveHandler;
+	private OthelloPlayerHandler playerHandler;
+	private OthelloNodeHelper nodeHelper;
+	private OthelloBoardHandler boardHandler;
+
 	/**
 	 * Creates an Othello game
-	 * @param blackPlayer The black player
-	 * @param whitePlayer The white player
-	 * @param board Board to be played at
+	 * 
+	 * @param blackPlayer
+	 *            The black player
+	 * @param whitePlayer
+	 *            The white player
+	 * @param board
+	 *            Board to be played at
 	 */
 	public OthelloImpl(Player blackPlayer, Player whitePlayer, Board board) {
-
-		players = new ArrayList<Player>();
-		players.add(blackPlayer);
-		players.add(whitePlayer);
-		this.board = board;
+		playerHandler = new OthelloPlayerHandler(blackPlayer, whitePlayer);
+		nodeHelper = new OthelloNodeHelper();
+		boardHandler = new OthelloBoardHandler(board);
+		moveHandler = new OthelloMoveHandler(nodeHelper, boardHandler);
 	}
-	
+
 	@Override
 	public Board getBoard() {
-		return board;
+		return boardHandler.getBoard();
 	}
 
 	@Override
 	public List<Node> getNodesToSwap(String playerId, String nodeId) {
-		return OthelloMoveHandler.getNodesToSwap(board, playerId, nodeId);
+		return moveHandler.getNodesToSwap(
+				playerHandler.getPlayerFromId(playerId), nodeId);
 	}
 
 	@Override
 	public Player getPlayerInTurn() {
-		return OthelloPlayerHandler.getPlayerFromId(playerInTurnId, players);
+		return playerHandler.getPlayerInTurn();
 	}
-	
+
 	@Override
 	public List<Player> getPlayers() {
-		return players;
+		return playerHandler.getPlayers();
 	}
 
 	@Override
 	public boolean hasValidMove(String playerId) {
-		return OthelloMoveHandler.hasValidMove(this.board, playerId);
+		return moveHandler
+				.hasValidMove(playerHandler.getPlayerFromId(playerId));
 	}
 
 	@Override
 	public boolean isActive() {
-		for(Player player : players) {
-			if(OthelloMoveHandler.hasValidMove(this.board, player.getId()))
+		for (Player player : playerHandler.getPlayers()) {
+			if (moveHandler.hasValidMove(player))
 				return true;
 		}
 		return false;
@@ -70,41 +75,39 @@ public class OthelloImpl implements Othello {
 
 	@Override
 	public boolean isMoveValid(String playerId, String nodeId) {
-		return OthelloMoveHandler.isMoveValid(this.board, playerId, nodeId);
+		return moveHandler.isMoveValid(playerHandler.getPlayerFromId(playerId),
+				nodeId);
 	}
-	
-	
+
 	@Override
 	public List<Node> move() {
-		List<Node> nodesToSwap = OthelloMoveHandler.move(this.board, playerInTurnId);
-		playerInTurnId = OthelloPlayerHandler.getOpponentId(playerInTurnId, players);
+		List<Node> nodesToSwap = moveHandler.move(playerHandler
+				.getPlayerInTurn());
+		playerHandler.changePlayerInTurn();
 		return nodesToSwap;
-		
+
 	}
 
 	@Override
 	public List<Node> move(String playerId, String nodeId)
 			throws IllegalArgumentException {
-		
-		if(!OthelloNodeHelper.isValidNodeId(nodeId) || OthelloPlayerHandler.getPlayerFromId(playerId, players) == null || !playerId.equals(playerInTurnId))
-			throw new IllegalArgumentException();
-		
-		List<Node> nodesToSwap = OthelloMoveHandler.move(board, playerId, nodeId);
-		
-		playerInTurnId = OthelloPlayerHandler.getOpponentId(playerInTurnId, players);
+		List<Node> nodesToSwap = moveHandler.move(
+				playerHandler.getPlayerFromId(playerId), nodeId);
+		playerHandler.changePlayerInTurn();
 		return nodesToSwap;
 	}
 
 	@Override
 	public void start() {
 		Random rnd = new Random();
-		String playerId = players.get(rnd.nextInt(2)).getId();
-		start(playerId);
+		Player player = playerHandler.getRandomPlayer();
+		start(player.getId());
 	}
 
 	@Override
 	public void start(String playerId) {
-		playerInTurnId = playerId;
-		OthelloBoardHandler.initBoard(board, playerId, OthelloPlayerHandler.getOpponentId(playerId, players));
+		playerHandler.setPlayerInTurn(playerHandler.getPlayerFromId(playerId));
+		boardHandler.initBoard(playerHandler.getPlayerInTurn(),
+				playerHandler.getOpponent(playerHandler.getPlayerInTurn()));
 	}
 }
