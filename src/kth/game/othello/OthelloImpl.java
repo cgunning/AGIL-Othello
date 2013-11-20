@@ -48,7 +48,7 @@ public class OthelloImpl implements Othello {
 	public Player getPlayerInTurn() {
 		return OthelloPlayerHandler.getPlayerFromId(playerInTurnId, players);
 	}
-
+	
 	@Override
 	public List<Player> getPlayers() {
 		return players;
@@ -86,7 +86,7 @@ public class OthelloImpl implements Othello {
 	public List<Node> move(String playerId, String nodeId)
 			throws IllegalArgumentException {
 		
-		if(!OthelloMoveHelper.isValidNodeId(nodeId) || OthelloPlayerHandler.getPlayerFromId(playerId, players) == null || !playerId.equals(playerInTurnId))
+		if(!OthelloNodeHelper.isValidNodeId(nodeId) || OthelloPlayerHandler.getPlayerFromId(playerId, players) == null || !playerId.equals(playerInTurnId))
 			throw new IllegalArgumentException();
 		
 		List<Node> nodesToSwap = OthelloMoveHandler.move(board, playerId, nodeId);

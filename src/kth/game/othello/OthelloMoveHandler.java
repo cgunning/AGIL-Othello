@@ -5,8 +5,6 @@ import java.util.List;
 
 import kth.game.othello.board.Board;
 import kth.game.othello.board.Node;
-import kth.game.othello.board.OthelloBoard;
-import kth.game.othello.board.OthelloNode;
 
 /**
  * Class that handles moves on a Othello board
@@ -27,7 +25,7 @@ class OthelloMoveHandler {
 	 * @return List<Node> nodes	-	The nodes to be swapped
 	 */
 	static List<Node> getNodesToSwap(Board board, String playerId, String nodeId) {
-		int[] coordinatesForNode = OthelloMoveHelper.getCoordinatesFromId(nodeId);
+		int[] coordinatesForNode = OthelloNodeHelper.getCoordinatesFromId(nodeId);
 		List<Node> returnedNodes = new ArrayList<Node>();
 		for (int change : changes) {
 			List<Node> swappedNodes = OthelloMoveHelper.findValidMoveInDirection(board, coordinatesForNode[0],coordinatesForNode[1], playerId, change);
@@ -64,8 +62,8 @@ class OthelloMoveHandler {
 	 */
 	static boolean isMoveValid(Board board, String playerId, String nodeId) {
 		List<Node> nodes = board.getNodes();
-		int[] coordinatesForNode = OthelloMoveHelper.getCoordinatesFromId(nodeId);
-		if (nodes.get(OthelloMoveHelper.getIndexFromCoordinates(board, coordinatesForNode[0],coordinatesForNode[1])).isMarked()) {
+		int[] coordinatesForNode = OthelloNodeHelper.getCoordinatesFromId(nodeId);
+		if (nodes.get(OthelloNodeHelper.getIndexFromCoordinates(board, coordinatesForNode[0],coordinatesForNode[1])).isMarked()) {
 			return false;
 		}
 		for (int change : changes) {

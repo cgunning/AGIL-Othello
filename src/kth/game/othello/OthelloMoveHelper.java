@@ -17,31 +17,31 @@ public class OthelloMoveHelper {
 	private static int UP = -8, LEFT = -1, RIGHT = 1, DOWN = 8, UP_LEFT = -9,UP_RIGHT = -7, DOWN_LEFT = 7, DOWN_RIGHT = 9;
 	
 	/**
+	 * Method to see if the node in the given direction is a valid step. 
 	 * 
-	 * 
-	 * @param nodes		-	
-	 * @param index		-	
-	 * @param change	-	
-	 * @return
+	 * @param board		- 	The board that is played on	
+	 * @param index		-	Index of the node to be checked if is valid step
+	 * @param direction	-	The direction of movement
+	 * @return boolean	-	True if this step is valid in this direction, otherwise false.
 	 */
-	static boolean isValidStep(List<Node> nodes, int index, int change) {
-		return (index < nodes.size() && index >= 0 && (Math.abs(change) > 1 || ((index + 1) % 8 != 0 && change == LEFT) || ((index) % 8 != 0 && change == RIGHT)));
+	static boolean isValidStep(Board board, int index, int direction) {
+		return (index < board.getNodes().size() && index >= 0 && (Math.abs(direction) > 1 || ((index + 1) % 8 != 0 && direction == LEFT) || ((index) % 8 != 0 && direction == RIGHT)));
 	}
 	
 	/**
 	 * Checks whether a step in a diagonal direction is an illegal step.
 	 * 
 	 * @param board				-	The board that is played on
-	 * @param lastXCoordinate	-	The last x coordinate
-	 * @param index				-	The index for the node in the current step
+	 * @param lastNode	-	The last x coordinate
+	 * @param currentNode				-	The index for the node in the current step
 	 * @param change			-	The number of nodes to skip in the list to make the step
-	 * @return
+	 * @return boolean			-	True if the step is an illegal step in that diagonal direction, otherwise false.
 	 */
-	static boolean isIllegalDiagonalStep(Board board, int lastXCoordinate, int index, int change) {
+	static boolean isIllegalDiagonalStep(Board board, Node lastNode, Node currentNode, int change) {
 		int dimension = (int)Math.sqrt(board.getNodes().size());
-		if (index / dimension == lastXCoordinate && (change == UP_RIGHT || change == DOWN_LEFT))
+		if (currentNode.getXCoordinate() == lastNode.getXCoordinate() && (change == UP_RIGHT || change == DOWN_LEFT))
 			return true;
-		else if (Math.abs(index / dimension - lastXCoordinate) == 2 && (change == UP_LEFT || change == DOWN_RIGHT))
+		else if (Math.abs(currentNode.getXCoordinate() - lastNode.getXCoordinate()) == 2 && (change == UP_LEFT || change == DOWN_RIGHT))
 			return true;
 		return false;
 	}
@@ -58,33 +58,35 @@ public class OthelloMoveHelper {
 	 */
 	static List<Node> findValidMoveInDirection(Board board, int xCoordinate, int yCoordinate, String playerId, int direction) {
 		List<Node> nodes = board.getNodes();
-		int i = getIndexFromCoordinates(board, xCoordinate, yCoordinate) + direction;
+		int i = OthelloNodeHelper.getIndexFromCoordinates(board, xCoordinate, yCoordinate);
+		Node lastNode = nodes.get(i);
 		boolean foundOpponent = false;
 		List<Node> returnedNodes = new ArrayList<Node>();
-		returnedNodes.add(nodes.get(i - direction));
-		Node lastNode = nodes.get(index)
-		while (isValidStep(nodes, i, direction)) {
-			if (isIllegalDiagonalStep(board, lastXCoordinate, i, direction))
+		returnedNodes.add(nodes.get(i));
+		i += direction;
+		while (isValidStep(board, i, direction)) {
+			Node currentNode = nodes.get(i);
+			
+			if (isIllegalDiagonalStep(board, lastNode, currentNode, direction))
 				return null;
 			
-			Node currentNode = nodes.get(i);
 			if (currentNode.isMarked()) {
-				if (!foundOpponent) {
+				if (!foundOpponent) { //The first node in a direction needs to be an opponents
 					if (!currentNode.getOccupantPlayerId().equals(playerId)) {
 						foundOpponent = true;
 						returnedNodes.add(currentNode);
 					} else {
 						return null;
 					}
-				} else if (currentNode.getOccupantPlayerId().equals(playerId)) {
+				} else if (currentNode.getOccupantPlayerId().equals(playerId)) { //Found a node that is occupied with me and has a occupant node betwwen.
 					return returnedNodes;
-				} else {
+				} else { 
 					returnedNodes.add(currentNode);
 				}
 			} else
 				return null;
-			i += direction;
-			lastXCoordinate = currentNode.getXCoordinate();
+			i += direction; //Continue in the given direction
+			lastNode = currentNode;
 		}
 		return null;
 	}
